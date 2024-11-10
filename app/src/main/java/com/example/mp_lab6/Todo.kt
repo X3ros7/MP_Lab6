@@ -1,4 +1,4 @@
-package com.example.mp_lab6.model
+package com.example.mp_lab6
 
 import kotlinx.serialization.Serializable
 

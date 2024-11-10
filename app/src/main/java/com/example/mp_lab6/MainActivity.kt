@@ -4,13 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mp_lab6.ui.theme.MP_Lab6Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +17,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MP_Lab6Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                TodoListScreen()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun TodoListScreen(todoViewModel: TodoViewModel = hiltViewModel()) {
+    val users = todoViewModel.todoList
+    val error = todoViewModel.errorMessage
+
+    LazyColumn {
+        if (error.isNotEmpty()) {
+            item { Text(text = error) }
+        } else {
+            items(users) { todo ->
+                TodoItem(todo)
+            }
+        }
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    MP_Lab6Theme {
-        Greeting("Android")
-    }
+fun TodoItem(todo: Todo) {
+    Text(text = todo.title)
+    Text(text = todo.completed.toString())
 }
