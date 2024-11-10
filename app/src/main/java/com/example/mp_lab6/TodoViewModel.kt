@@ -18,7 +18,7 @@ class TodoViewModel @Inject constructor(): ViewModel() {
         fetchTodoList()
     }
 
-    private fun fetchTodoList() {
+     fun fetchTodoList() {
         viewModelScope.launch {
             try {
                 todoList = fetchTodos()

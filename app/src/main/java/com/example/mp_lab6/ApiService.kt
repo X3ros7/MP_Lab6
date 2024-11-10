@@ -7,6 +7,6 @@ import kotlinx.coroutines.withContext
 
 suspend fun fetchTodos() : List<Todo> {
     return withContext(Dispatchers.IO) {
-        client.get("https://jsonplaceholder.typicode.com/todos").body()
+        client.get("https://jsonplaceholder.typicode.com/todos").body<List<Todo>>().subList(0, 4)
     }
 }
